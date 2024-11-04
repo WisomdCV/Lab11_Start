@@ -39,9 +39,14 @@ fun SettingsScreen(
   restartApp: (String) -> Unit,
   openScreen: (String) -> Unit,
   viewModel: SettingsViewModel = hiltViewModel()
+
 ) {
+  // Recolectar el estado del usuario para actualizar la pantalla de configuración automáticamente
+  val uiState by viewModel.uiState.collectAsState(
+    initial = SettingsUiState(false)
+  )
   SettingsScreenContent(
-    uiState = viewModel.uiState,
+    uiState = uiState,
     onLoginClick = { viewModel.onLoginClick(openScreen) },
     onSignUpClick = { viewModel.onSignUpClick(openScreen) },
     onSignOutClick = { viewModel.onSignOutClick(restartApp) },
